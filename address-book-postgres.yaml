@@ -1,0 +1,26 @@
+apiVersion: kubegres.reactive-tech.io/v1
+kind: Kubegres
+metadata:
+  name: address-book-postgres
+  namespace: default
+
+spec:
+
+   replicas: 3
+   image: postgres:14.2
+
+   database:
+      size: 200Mi
+
+   env:
+      - name: POSTGRES_PASSWORD
+        valueFrom:
+           secretKeyRef:
+              name: address-book-postgres-secret
+              key: superUserPassword
+
+      - name: POSTGRES_REPLICATION_PASSWORD
+        valueFrom:
+           secretKeyRef:
+              name: address-book-postgres-secret
+              key: replicationUserPassword
